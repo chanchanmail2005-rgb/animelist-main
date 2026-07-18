@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import * as Sharing from "expo-sharing";
@@ -19,13 +19,27 @@ export default function ProfileScreen() {
     try {
       const csv = await apiExportCSV(type);
       const fileName = `export_${type}_${new Date().getTime()}.csv`;
-      const fileUri = FileSystem.documentDirectory + fileName;
-      await FileSystem.writeAsStringAsync(fileUri, csv, { encoding: "utf8" });
 
-      if (await Sharing.isAvailableAsync()) {
-        await Sharing.shareAsync(fileUri);
+      if (Platform.OS === "web") {
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", fileName);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode?.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        show(`Ekspor ${type} berhasil didownload`, "success");
       } else {
-        Alert.alert("Error", "Sharing tidak tersedia di perangkat ini");
+        const fileUri = FileSystem.documentDirectory + fileName;
+        await FileSystem.writeAsStringAsync(fileUri, csv, { encoding: "utf8" });
+
+        if (await Sharing.isAvailableAsync()) {
+          await Sharing.shareAsync(fileUri);
+        } else {
+          Alert.alert("Error", "Sharing tidak tersedia di perangkat ini");
+        }
       }
     } catch (e: any) {
       show(`Gagal ekspor ${type}: ` + e.message, "error");
@@ -41,10 +55,17 @@ export default function ProfileScreen() {
 
       if (result.canceled || !result.assets) return;
 
-      const fileUri = result.assets[0].uri;
-      const content = await FileSystem.readAsStringAsync(fileUri, { encoding: "utf8" });
-      const count = await apiImportCSV(content, type);
+      const asset = result.assets[0];
+      let content = "";
 
+      if (Platform.OS === "web") {
+        const response = await fetch(asset.uri);
+        content = await response.text();
+      } else {
+        content = await FileSystem.readAsStringAsync(asset.uri, { encoding: "utf8" });
+      }
+
+      const count = await apiImportCSV(content, type);
       show(`Berhasil mengimpor ${count} data ${type}`, "success");
     } catch (e: any) {
       show(`Gagal impor ${type}: ` + e.message, "error");
@@ -63,7 +84,7 @@ export default function ProfileScreen() {
           </View>
           <View style={{ flex: 1, gap: 4 }}>
             <Text style={styles.name} numberOfLines={1}>
-              {user?.name || "CHANCHAN"}
+              {user?.name || "Offline User"}
             </Text>
             <Text style={styles.email} numberOfLines={1}>
               {user?.email || "No Account Needed"}
