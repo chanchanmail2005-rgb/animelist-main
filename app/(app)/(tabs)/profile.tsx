@@ -103,7 +103,7 @@ export default function ProfileScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity style={[styles.actionBtn, { flex: 1 }]} onPress={() => handleImport("anime")}>
-              <Ionicons name="cloud-upload-outline" size={18} color={colors.status.Complete} />
+              <Ionicons name="cloud-upload-outline" size={18} color={colors.primary} />
               <Text style={styles.actionText}>Impor Anime</Text>
             </TouchableOpacity>
           </View>
@@ -120,7 +120,7 @@ export default function ProfileScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity style={[styles.actionBtn, { flex: 1 }]} onPress={() => handleImport("donghua")}>
-              <Ionicons name="cloud-upload-outline" size={18} color={colors.status.Complete} />
+              <Ionicons name="cloud-upload-outline" size={18} color="#7C5CFF" />
               <Text style={styles.actionText}>Impor Donghua</Text>
             </TouchableOpacity>
           </View>

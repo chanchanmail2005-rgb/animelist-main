@@ -241,11 +241,11 @@ const styles = StyleSheet.create({
     flexBasis: "47.5%",
     flexGrow: 1,
     backgroundColor: colors.surfaceElevated,
-    borderRadius: radius.md,
+    borderRadius: radius.sm,
     padding: spacing.md - 2,
     borderWidth: 1,
     borderColor: colors.border,
-    gap: 6,
+    gap: 2,
   },
   statIcon: {
     width: 36,
