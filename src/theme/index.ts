@@ -21,11 +21,11 @@ export const colors = {
 } as const;
 
 export const spacing = {
-  xs: 4,
-  sm: 8,
-  md: 16,
-  lg: 24,
-  xl: 32,
+  xs: 2,
+  sm: 4,
+  md: 8,
+  lg: 16,
+  xl: 24,
 } as const;
 
 export const radius = {
@@ -36,12 +36,12 @@ export const radius = {
 } as const;
 
 export const typography = {
-  h1: { fontSize: 32, fontWeight: "800" as const, letterSpacing: -1 },
-  h2: { fontSize: 24, fontWeight: "700" as const, letterSpacing: -0.5 },
-  h3: { fontSize: 18, fontWeight: "700" as const, letterSpacing: 0 },
-  body: { fontSize: 14, fontWeight: "500" as const, letterSpacing: 0.2 },
+  h1: { fontSize: 24, fontWeight: "800" as const, letterSpacing: -1 },
+  h2: { fontSize: 14, fontWeight: "700" as const, letterSpacing: -0.5 },
+  h3: { fontSize: 8, fontWeight: "700" as const, letterSpacing: 0 },
+  body: { fontSize: 8, fontWeight: "500" as const, letterSpacing: 0.2 },
   caption: {
-    fontSize: 11,
+    fontSize: 7,
     fontWeight: "800" as const,
     letterSpacing: 1.2,
     textTransform: "uppercase" as const,
