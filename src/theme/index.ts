@@ -37,8 +37,8 @@ export const radius = {
 
 export const typography = {
   h1: { fontSize: 24, fontWeight: "800" as const, letterSpacing: -1 },
-  h2: { fontSize: 14, fontWeight: "700" as const, letterSpacing: -0.5 },
-  h3: { fontSize: 8, fontWeight: "700" as const, letterSpacing: 0 },
+  h2: { fontSize: 12, fontWeight: "700" as const, letterSpacing: -0.5 },
+  h3: { fontSize: 10, fontWeight: "700" as const, letterSpacing: 0 },
   body: { fontSize: 8, fontWeight: "500" as const, letterSpacing: 0.2 },
   caption: {
     fontSize: 7,

@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
   center: { padding: spacing.lg, alignItems: "center", justifyContent: "center" },
   empty: { padding: spacing.lg, alignItems: "center", gap: 8 },
   emptyTitle: { ...typography.h3, color: colors.text.primary, marginTop: 8 },
-  emptyDesc: { color: colors.text.secondary, fontSize: 13, textAlign: "center" },
+  emptyDesc: { color: colors.text.secondary, fontSize: 12, textAlign: "center" },
   emptyCtas: { flexDirection: "row", gap: 10, marginTop: 12 },
   emptyBtn: {
     flexDirection: "row",

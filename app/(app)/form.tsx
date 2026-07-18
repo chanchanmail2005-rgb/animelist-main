@@ -322,8 +322,8 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: "center", justifyContent: "center" },
   imagePicker: {
     alignSelf: "center",
-    width: 180,
-    height: 240,
+    width: 140,
+    height: 200,
     borderRadius: radius.lg,
     borderWidth: 2,
     borderColor: colors.border,
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: Platform.OS === "ios" ? 14 : 10,
     color: colors.text.primary,
-    fontSize: 15,
+    fontSize: 12,
   },
   row2: { flexDirection: "row", gap: spacing.md },
   segmentRow: { flexDirection: "row", gap: 8 },
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   segmentActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  segmentText: { color: colors.text.secondary, fontSize: 13, fontWeight: "600" },
+  segmentText: { color: colors.text.secondary, fontSize: 12, fontWeight: "600" },
   saveBtn: {
     backgroundColor: colors.primary,
     paddingVertical: 16,
@@ -385,5 +385,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 8,
   },
-  saveText: { color: "#0A0A0C", fontWeight: "800", fontSize: 16 },
+  saveText: { color: "#0A0A0C", fontWeight: "800", fontSize: 12 },
 });

@@ -16,7 +16,7 @@ export default function TabsLayout() {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
           borderTopWidth: 1,
-          height: 60 + insets.bottom,
+          height: 80 + insets.bottom,
           paddingBottom: insets.bottom > 0 ? insets.bottom : Platform.OS === "android" ? 8 : 6,
           paddingTop: 6,
         },
