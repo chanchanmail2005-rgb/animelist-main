@@ -59,6 +59,23 @@ export default function FormScreen() {
       .finally(() => setLoading(false));
   }, [editId, show]);
 
+  const resizeImageWeb = async (base64: string): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = document.createElement("img");
+      img.src = base64;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 300;
+        const scale = MAX_WIDTH / img.width;
+        canvas.width = MAX_WIDTH;
+        canvas.height = img.height * scale;
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", 0.4));
+      };
+    });
+  };
+
   const pickImage = async () => {
     setPickingImage(true);
     try {
@@ -71,23 +88,33 @@ export default function FormScreen() {
         mediaTypes: ["images"],
         allowsEditing: true,
         aspect: [3, 4],
-        quality: 0.6,
+        quality: 0.3, // Lower quality to save space
         base64: true,
       });
       if (result.canceled || !result.assets?.[0]) return;
       const asset = result.assets[0];
-      const base64 = asset.base64;
+      let base64 = asset.base64;
       if (!base64) {
         show("Gagal memproses gambar", "error");
         return;
       }
       const mime = asset.mimeType || "image/jpeg";
-      setImage(`data:${mime};base64,${base64}`);
+      let finalUri = `data:${mime};base64,${base64}`;
+
+      if (Platform.OS === "web") {
+        finalUri = await resizeImageWeb(finalUri);
+      }
+
+      setImage(finalUri);
     } catch (e: any) {
       show(e?.message || "Gagal memilih gambar", "error");
     } finally {
       setPickingImage(false);
     }
+  };
+
+  const removeImage = () => {
+    setImage(null);
   };
 
   const handleSave = async () => {
@@ -114,7 +141,12 @@ export default function FormScreen() {
       }
       router.back();
     } catch (e: any) {
-      show(e?.message || "Gagal menyimpan", "error");
+      // Specifically check for storage limit error on web
+      if (e.message?.includes("quota") || e.message?.includes("limit")) {
+        show("Penyimpanan penuh! Kurangi ukuran gambar.", "error");
+      } else {
+        show(e?.message || "Gagal menyimpan", "error");
+      }
     } finally {
       setSaving(false);
     }
@@ -175,10 +207,19 @@ export default function FormScreen() {
             </View>
           )}
           {image ? (
-            <View style={styles.changeBadge}>
-              <Ionicons name="camera" size={12} color="#0A0A0C" />
-              <Text style={styles.changeText}>Ubah</Text>
-            </View>
+            <>
+              <View style={styles.changeBadge}>
+                <Ionicons name="camera" size={12} color="#0A0A0C" />
+                <Text style={styles.changeText}>Ubah</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.removeBadge}
+                onPress={removeImage}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="trash" size={14} color="#FFF" />
+              </TouchableOpacity>
+            </>
           ) : null}
         </TouchableOpacity>
 
@@ -353,6 +394,19 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   changeText: { color: "#0A0A0C", fontWeight: "800", fontSize: 11 },
+  removeBadge: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    backgroundColor: "rgba(220, 38, 38, 0.9)",
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
+  },
   field: { gap: 8 },
   label: { ...typography.caption, color: colors.text.secondary },
   input: {
