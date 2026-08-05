@@ -42,7 +42,7 @@ export const ConfirmDialog: React.FC<Props> = ({
               testID="confirm-ok"
               style={[
                 styles.btn,
-                { backgroundColor: destructive ? colors.status.Hiatus : colors.primary },
+                { backgroundColor: destructive ? colors.status.New : colors.primary },
               ]}
               onPress={onConfirm}
               activeOpacity={0.85}

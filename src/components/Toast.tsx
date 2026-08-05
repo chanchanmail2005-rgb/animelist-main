@@ -37,7 +37,7 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     type === "success"
       ? colors.status.Complete
       : type === "error"
-        ? colors.status.Hiatus
+        ? colors.status.New
         : colors.primary;
 
   return (

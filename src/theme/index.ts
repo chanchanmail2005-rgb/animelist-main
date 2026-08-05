@@ -16,7 +16,7 @@ export const colors = {
   status: {
     Ongoing: "#00FF66",
     Complete: "#00BBFF",
-    Hiatus: "#FFC300",
+    New: "#FFC300",
   },
 } as const;
 
@@ -48,7 +48,7 @@ export const typography = {
   },
 };
 
-export type AnimeStatus = "Ongoing" | "Complete" | "Hiatus";
+export type AnimeStatus = "Ongoing" | "Complete" | "New";
 export type EntryType = "anime" | "donghua";
 
-export const STATUS_OPTIONS: AnimeStatus[] = ["Ongoing", "Complete", "Hiatus"];
+export const STATUS_OPTIONS: AnimeStatus[] = ["Ongoing", "Complete", "New"];

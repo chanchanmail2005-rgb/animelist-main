@@ -65,14 +65,15 @@ export async function apiExportCSV(type: EntryType): Promise<string> {
   const list = await getLocalList();
   const filtered = list.filter((item) => item.type === type);
 
-  // Format: Judul, Season, Episode, Status
-  const headers = ["Judul", "Season", "Episode", "Status"];
+  // Format: Judul, Season, Episode, Status, Gambar
+  const headers = ["Judul", "Season", "Episode", "Status", "Gambar"];
   const rows = filtered.map((item) =>
     [
       `"${item.title.replace(/"/g, '""')}"`,
       item.season,
       item.episode,
       item.status,
+      `"${(item.image || "").replace(/"/g, '""')}"`,
     ].join(",")
   );
   return [headers.join(","), ...rows].join("\n");
@@ -85,7 +86,7 @@ export async function apiImportCSV(csvContent: string, type: EntryType) {
   const importedAnimes: Anime[] = [];
   const now = new Date().toISOString();
 
-  // Kita asumsikan format: Judul, Season, Episode, Status
+  // Kita asumsikan format: Judul, Season, Episode, Status, Gambar
   for (let i = 1; i < lines.length; i++) {
     const values = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
 
@@ -93,6 +94,7 @@ export async function apiImportCSV(csvContent: string, type: EntryType) {
     const season = parseInt(values[1], 10) || 1;
     const episode = parseInt(values[2], 10) || 0;
     let status = values[3]?.replace(/^"|"$/g, "").trim() as AnimeStatus;
+    const image = values[4]?.replace(/^"|"$/g, "").replace(/""/g, '"').trim() || null;
 
     // Validasi status
     const validStatuses = ["Ongoing", "Complete", "Hiatus"];
@@ -109,6 +111,7 @@ export async function apiImportCSV(csvContent: string, type: EntryType) {
         season: season,
         episode: episode,
         status: status,
+        image: image,
         genre: null,
         created_at: now,
         updated_at: now,

@@ -117,7 +117,7 @@ export const AnimeCard: React.FC<Props> = ({
               hitSlop={8}
               style={styles.ghostIcon}
             >
-              <Ionicons name="trash-outline" size={18} color={colors.status.Hiatus} />
+              <Ionicons name="trash-outline" size={18} color={colors.status.New} />
             </TouchableOpacity>
           </View>
         </View>

@@ -126,7 +126,7 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        <Text style={styles.footer}>Otaku Tracker · v1.0</Text>
+        <Text style={styles.footer}>Anime List · v1.1</Text>
       </ScrollView>
     </SafeAreaView>
   );
